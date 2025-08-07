@@ -5,7 +5,7 @@ const loginMiddleware = (request, response, next) => {
 
     try {
         const data = request.body
-        const {email , password ,role} = data
+        const {email , password} = data
 
 
         if (!data) {
@@ -27,6 +27,7 @@ const loginMiddleware = (request, response, next) => {
             })
 
         }
+        
         next()
     } catch (error) {
         return response.status(501).json({

@@ -1,5 +1,7 @@
 const express = require("express")
-const getAllbooks = require("../controllers/admin.controller")
+const { getAllUser, getAllbooks, delUser, delBook } = require("../controllers/admin.controller")
+const adminMiddleware = require("../middleware/admin.middleware")
+
 
 
 const router = express.Router()
@@ -7,7 +9,11 @@ const router = express.Router()
 
 
 
-router.get("/getAll",getAllbooks)
+router.get("/getAllUsers",adminMiddleware,getAllUser)
+router.get("/getAllBooks",adminMiddleware,getAllbooks)
+router.delete("deleteUsers/:id",adminMiddleware,delUser)
+router.delete("/deleteBooks/:id",adminMiddleware,delBook)
+
 
 
 

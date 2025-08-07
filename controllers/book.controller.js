@@ -23,6 +23,8 @@ const createBook = async (request, response) => {
         const newBook = new Book({
             title,
             auther,
+            adminId: request.user.id
+            
             
 
         })

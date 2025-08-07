@@ -30,7 +30,7 @@ const signUp = async (request, response) => {
         await newUser.save()
 
         const token = JWT.sign(
-            { id: newUser._id, email: newUser.email },
+            { id: newUser._id, email: newUser.email , role: newUser.role},
             process.env.JWT_SECRET_WEB_TOKEN,
             { expiresIn: "1d" }
         )
@@ -67,7 +67,7 @@ const login = async (request, response) => {
 
         }
         const token = JWT.sign(
-            { id: user._id, email: user.email },
+            { id: user._id, email: user.email , role: user.role},
             process.env.JWT_SECRET_WEB_TOKEN,
             { expiresIn: "1d" })
 

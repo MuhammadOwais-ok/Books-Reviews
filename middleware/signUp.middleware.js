@@ -33,12 +33,7 @@ const signUpmiddleware = (request,response,next) => {
                 message: " Password is required "
             })
         }
-        if (!role) {
-            return response.status(401).json({
-                message:"role is required"
-            })
-            
-        }
+        
 
         next()
 
