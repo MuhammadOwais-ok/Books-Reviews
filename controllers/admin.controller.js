@@ -4,31 +4,30 @@ const Books = require("../models/Book")
 
 
 
-const getAllbooks= async(request,response) =>{
+const getAllbooks = async (request, response) => {
     try {
-        
 
-        const {query} = request.query
-        const page = +query.page || 1
+
+        const { query } = request;
+        const page = +query.page || 1;
         const limit = +query.limit || 5
         const searchValue = query.searchValue
-        const skip = (page - 1)* limit
+        const skip = (page - 1) * limit
 
 
-        const serachQuery = {
-
-        }
-        if (serachQuery) {
+        const serachQuery = {}
+        if (searchValue) {
             serachQuery.$or = [
-                {title: {$regex: searchValue , $options: "i"} },
-                {auther: {$regex: searchValue , $options: "i"}},
+                { title: { $regex: searchValue, $options: "i" } },
+                { auther: { $regex: searchValue, $options: "i" } },
             ]
-            
+
         }
 
         const kitab = await Books.find(serachQuery)
-        .skip(skip)
-        .limit(limit)
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 })
 
         const totalBooks = await Books.countDocuments(serachQuery)
 
@@ -41,24 +40,23 @@ const getAllbooks= async(request,response) =>{
         })
 
     } catch (error) {
-          return response.status(501).json({
+        console.log("🚀 ~ getAllbooks ~ error:", error)
+        return response.status(501).json({
             merrgae: "invalid request",
-            error:error.message
-          })
-    
-}
+            error: error.message
+        })
+
+    }
 
 }
 
-
-
-const getAllUser = async (request , response)=> {
+const getAllUser = async (request, response) => {
     try {
-         const {query} = request.query
+        const { query } = request.query
         const page = +query.page || 1
         const limit = +query.limit || 5
         const searchValue = query.searchValue
-        const skip = (page - 1)* limit
+        const skip = (page - 1) * limit
 
 
         const serachQuery = {
@@ -67,16 +65,16 @@ const getAllUser = async (request , response)=> {
         }
         if (serachQuery) {
             serachQuery.$or = [
-                {firstName: {$regex: searchValue , $options: "i"} },
-                {lastName: {$regex: searchValue , $options: "i"}},
-                {email: {$regex: searchValue , $options: "i"}},
+                { firstName: { $regex: searchValue, $options: "i" } },
+                { lastName: { $regex: searchValue, $options: "i" } },
+                { email: { $regex: searchValue, $options: "i" } },
             ]
-            
+
         }
 
         const user = await User.find(serachQuery)
-        .skip(skip)
-        .limit(limit)
+            .skip(skip)
+            .limit(limit)
 
         const totalUsers = await User.countDocuments(serachQuery)
 
@@ -89,43 +87,44 @@ const getAllUser = async (request , response)=> {
         })
 
     } catch (error) {
+        console.log("🚀 ~ getAllUser ~ error:", error)
         return response.status(501).json({
             merrgae: "invalid request",
-            error:error.message
-          })     
+            error: error.message
+        })
     }
 
 }
 
 
-const delUser = async (request,response)=>{
+const delUser = async (request, response) => {
     try {
         const id = request.params.id
 
-        const user = await User.findById({_id:id , role:"user"})
+        const user = await User.findById({ _id: id, role: "user" })
 
         if (!user) {
             return response.status(404).json({
-                mesasge:"User Not Found"
+                mesasge: "User Not Found"
             })
-            
+
         }
 
         await User.findOneAndDelete(user.id)
 
         return response.status(201).json({
-            message:"User delete succssefully",
-        
+            message: "User delete succssefully",
+
         })
     } catch (error) {
         return response.status(501).json({
             merrgae: "invalid request",
-            error:error.message
-          })  
+            error: error.message
+        })
     }
 }
 
-const delBook = async (request ,response)=>{
+const delBook = async (request, response) => {
     try {
         const id = request.params.id
 
@@ -133,20 +132,20 @@ const delBook = async (request ,response)=>{
 
         if (!book) {
             return response.status(404).json({
-                mesasge:"Book Not Found"
-            })  
-            
+                mesasge: "Book Not Found"
+            })
+
         }
-        await Books.findOneAndDelete({_id:id})
+        await Books.findOneAndDelete({ _id: id })
 
         return response.status(201).json({
-            message:"Book delete succssefully",
+            message: "Book delete succssefully",
         })
     } catch (error) {
         return response.status(501).json({
             merrgae: "invalid request",
-            error:error.message
-          })  
+            error: error.message
+        })
     }
 }
-module.exports = {getAllbooks,getAllUser,delUser,delBook}
+module.exports = { getAllbooks, getAllUser, delUser, delBook }

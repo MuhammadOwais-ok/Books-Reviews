@@ -11,9 +11,9 @@ const authMiddleware = require("../middleware/authmiddleware")
 const router = express.Router()
 
 
-router.post("/createBook",authMiddleware,adminMiddleware, createBook)
-router.put("/update/:id",updateBook)
-router.delete("/delete/:id",deleteBook)
+router.post("/createBook", [authMiddleware, adminMiddleware], createBook)
+router.put("/update/:id", [authMiddleware, adminMiddleware], updateBook)
+router.delete("/delete/:id", [authMiddleware, adminMiddleware], deleteBook)
 
 
 
@@ -22,4 +22,4 @@ router.delete("/delete/:id",deleteBook)
 
 
 
-module.exports=router
+module.exports = router

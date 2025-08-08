@@ -8,10 +8,10 @@ const router = express.Router()
 
 
 
-router.post("/addReview/:id",authMiddleware, addReview)
-router.put("/update/:id",authMiddleware,updateReview)
-router.delete("/delete/:id",authMiddleware,delReview)
-router.get("/allReview",getAllReview)
+router.post("/addReview/:id", authMiddleware, addReview)
+router.put("/update/:id", authMiddleware, updateReview)
+router.delete("/delete/:id", authMiddleware, delReview)
+router.get("/allReview", authMiddleware, getAllReview)
 
 
 
